@@ -30,7 +30,7 @@ class Consumer implements Runnable {
     public void run() {
         try {
             while(true) {
-                queue.remove();
+                queue.remove(queue.element());
                 Thread.sleep(2000);
             }
         }

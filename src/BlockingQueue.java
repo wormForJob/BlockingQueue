@@ -3,14 +3,18 @@
  */
 import java.util.*;
 
+
 public class BlockingQueue<E> {
     //data
     private static final int LEN = 10;
     private List<E> queue = new ArrayList<E>(LEN);
 
-    boolean add(E e) {
-        if (queue.size() >= 10) {
-            return false;
+    boolean add(E e){
+        if (queue.size() >= LEN) {
+            throw new IllegalStateException();
+        }
+        if (e == null) {
+            throw new NullPointerException();
         }
         else {
             queue.add(e);
@@ -18,19 +22,27 @@ public class BlockingQueue<E> {
         }
     }
 
-    boolean remove() {
-        if (queue.size() <= 0) {
-            return false;
+    boolean remove(Object e) {
+        if (e == null)
+        {
+            throw new NullPointerException();
         }
-        else {
-            queue.remove(0);
-            return true;
+
+        Iterator<E> iter = queue.iterator();
+        while (iter.hasNext())
+        {
+            if (iter.next().equals((E)e))
+            {
+                iter.remove();
+                return true;
+            }
         }
+        return false;
     }
 
     E element() {
         if (queue.size() <= 0) {
-            return null;
+            throw new NoSuchElementException();
         }
         else {
             return queue.get(0);
